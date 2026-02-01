@@ -82,6 +82,7 @@ const App: React.FC = () => {
   const isPipe = state.tankType === TankType.PIPE;
   const CT_BENCHMARK = 15;
   const isTurbidityTooHigh = state.turbidity === TurbidityLevel.HIGH;
+  const isTurbidityMid = state.turbidity === TurbidityLevel.MID;
 
   return (
     <div className="min-h-screen bg-slate-50 pb-12 text-slate-900">
@@ -370,7 +371,7 @@ const App: React.FC = () => {
                   <select 
                     value={state.turbidity}
                     onChange={e => handleInputChange('turbidity', e.target.value as TurbidityLevel)}
-                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 transition-all ${isTurbidityTooHigh ? 'bg-red-50 border-red-300 focus:ring-red-500 text-red-700' : 'bg-white border-slate-300 focus:ring-blue-500 text-xs'}`}
+                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 transition-all ${isTurbidityTooHigh ? 'bg-red-50 border-red-300 focus:ring-red-500 text-red-700' : isTurbidityMid ? 'bg-amber-50 border-amber-300 focus:ring-amber-500 text-amber-800' : 'bg-white border-slate-300 focus:ring-blue-500 text-xs'}`}
                   >
                     {Object.values(TurbidityLevel).map(t => (
                       <option key={t} value={t}>{t}</option>
@@ -385,6 +386,18 @@ const App: React.FC = () => {
                   <div>
                     <p className="text-xs font-bold text-red-800 uppercase tracking-tight">Regulatory Alert</p>
                     <p className="text-[11px] text-red-700 leading-tight mt-1 font-medium">No LRV Credits can be claimed when turbidity exceeds 1 NTU.</p>
+                  </div>
+                </div>
+              )}
+
+              {isTurbidityMid && (
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3 animate-in fade-in zoom-in duration-200">
+                  <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-bold text-amber-800 uppercase tracking-tight">Public Health Caution</p>
+                    <p className="text-[11px] text-amber-700 leading-tight mt-1 font-medium italic">
+                      Although Ct is not impacted at these turbidity values it is an indication of less effective media filtration and other pathogens may present a risk to Public Health.
+                    </p>
                   </div>
                 </div>
               )}
