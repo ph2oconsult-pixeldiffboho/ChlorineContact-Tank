@@ -27,8 +27,8 @@ export interface TankDimensions {
 export interface AppState {
   flowRate: number; // m³ · d⁻¹
   chemical: ChlorineChemical;
-  naoclConc: number; // % w/v (e.g., 12.5)
-  naoclDoseRate: number; // L · h⁻¹
+  naOClConc: number; // % w/v (e.g., 12.5)
+  naOClDoseRate: number; // L · h⁻¹
   gasDoseRate: number; // kg · h⁻¹
   tankType: TankType;
   dimensions: TankDimensions;
@@ -49,7 +49,7 @@ export interface CalculationResults {
   ctDose: number; // g · min · m⁻³
   effectiveCt: number; // g · min · m⁻³
   postDosePh: number;
-  hoclFraction: number;
+  hoClFraction: number;
   lrvBacteriaApplied: number;
   lrvBacteriaEffective: number;
   lrvVirusApplied: number;
