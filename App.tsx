@@ -25,8 +25,8 @@ const App: React.FC = () => {
   const [state, setState] = useState<AppState>({
     flowRate: 10000, // 10,000 m³/d
     chemical: ChlorineChemical.SODIUM_HYPOCHLORITE,
-    naoclConc: 12.5, // 12.5% w/v
-    naoclDoseRate: 5, 
+    naOClConc: 12.5, // 12.5% w/v
+    naOClDoseRate: 5, 
     gasDoseRate: 2, 
     tankType: TankType.RECTANGULAR,
     dimensions: { length: 20, width: 5, waterDepth: 3 },
@@ -136,7 +136,7 @@ const App: React.FC = () => {
                     onClick={() => handleInputChange('chemical', ChlorineChemical.SODIUM_HYPOCHLORITE)}
                     className={`py-2 px-4 rounded-md text-sm font-medium transition-all ${state.chemical === ChlorineChemical.SODIUM_HYPOCHLORITE ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                   >
-                    Sodium hypo
+                    NaOCl
                   </button>
                   <button 
                     onClick={() => handleInputChange('chemical', ChlorineChemical.CHLORINE_GAS)}
@@ -158,8 +158,8 @@ const App: React.FC = () => {
                       min="0"
                       step="any"
                       onKeyDown={preventInvalidKeys}
-                      value={state.naoclConc} 
-                      onChange={e => handleInputChange('naoclConc', parseFloat(e.target.value))}
+                      value={state.naOClConc} 
+                      onChange={e => handleInputChange('naOClConc', parseFloat(e.target.value))}
                       className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <p className="text-[10px] text-slate-400 mt-1 italic">Typical: 12.5% w/v</p>
@@ -173,8 +173,8 @@ const App: React.FC = () => {
                       min="0"
                       step="0.1"
                       onKeyDown={preventInvalidKeys}
-                      value={state.naoclDoseRate} 
-                      onChange={e => handleInputChange('naoclDoseRate', parseFloat(e.target.value))}
+                      value={state.naOClDoseRate} 
+                      onChange={e => handleInputChange('naOClDoseRate', parseFloat(e.target.value))}
                       className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -417,15 +417,15 @@ const App: React.FC = () => {
               </div>
               <div className="pt-2 border-t border-slate-50">
                 <span className="text-blue-500 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
-                  <Zap className="w-3 h-3" /> Calculated HOCl dose
+                  <Zap className="w-3 h-3" /> CALCULATED <span className="normal-case">HOCl</span> DOSE
                 </span>
                 <div className="text-2xl font-bold text-blue-600 mt-1">
-                  {(results.chlorineDose * results.hoclFraction).toFixed(2)} <span className="text-xs font-normal text-blue-400 lowercase">mg · L⁻¹</span>
+                  {(results.chlorineDose * results.hoClFraction).toFixed(2)} <span className="text-xs font-normal text-blue-400 lowercase">mg · L⁻¹</span>
                 </div>
               </div>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-              <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Post-dose water pH</span>
+              <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">POST-DOSE WATER <span className="normal-case">pH</span></span>
               <div className="text-4xl font-bold text-emerald-600 mt-2">{results.postDosePh.toFixed(2)}</div>
               <p className="text-[10px] text-slate-400 mt-1 font-medium italic">Adjusted for alkalinity buffering</p>
             </div>
@@ -473,7 +473,7 @@ const App: React.FC = () => {
                     <h4 className="font-semibold text-blue-800 text-sm tracking-tight">Effective Ct</h4>
                   </div>
                   <p className="text-[10px] text-blue-600/80 mb-2 font-medium italic">
-                    HOCl only ({(results.hoclFraction * 100).toFixed(1)}% of dose)
+                    HOCl only ({(results.hoClFraction * 100).toFixed(1)}% of dose)
                   </p>
                   <div className={`text-xl font-bold transition-colors duration-300 ${results.effectiveCt < CT_BENCHMARK ? 'text-rose-600' : 'text-blue-700'}`}>
                     {results.effectiveCt.toFixed(2)} <span className="text-xs font-normal text-blue-600/60 lowercase">mg · min · L⁻¹</span>
