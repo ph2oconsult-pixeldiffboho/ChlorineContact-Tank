@@ -40,7 +40,7 @@ const lookupVirusLrv = (ct20: number): number => {
  */
 export const calculateResults = (state: AppState): CalculationResults => {
   const { 
-    flowRate, chemical, naoclConc, naoclDoseRate, gasDoseRate, 
+    flowRate, chemical, naOClConc, naOClDoseRate, gasDoseRate, 
     tankType, dimensions, isBaffled, baffleFactor, pH, temperature, alkalinity,
     turbidity
   } = state;
@@ -51,7 +51,7 @@ export const calculateResults = (state: AppState): CalculationResults => {
   // mg/L (g/m3) = (kg/h * 24 h/d * 1000 g/kg) / (m3/d)
   let dose_mgL = 0;
   if (chemical === ChlorineChemical.SODIUM_HYPOCHLORITE) {
-    const massRate_kgh = (naoclDoseRate * naoclConc) / 100;
+    const massRate_kgh = (naOClDoseRate * naOClConc) / 100;
     dose_mgL = flowRate > 0 ? (massRate_kgh * 24 * 1000) / flowRate : 0;
   } else {
     dose_mgL = flowRate > 0 ? (gasDoseRate * 24 * 1000) / flowRate : 0;
@@ -95,11 +95,11 @@ export const calculateResults = (state: AppState): CalculationResults => {
   // 5. HOCl Fraction (Morris 1966 dissociation model)
   const tKelvin = temperature + 273.15;
   const pKa = (3000 / tKelvin) - 10.0686 + (0.0253 * tKelvin);
-  const hoclFraction = 1 / (1 + Math.pow(10, postDosePh - pKa));
+  const hoClFraction = 1 / (1 + Math.pow(10, postDosePh - pKa));
 
   // 6. Ct Values (mg · min / L)
   const ctDose = Math.max(0, dose_mgL * t10);
-  const effectiveCt = Math.max(0, (dose_mgL * hoclFraction) * t10);
+  const effectiveCt = Math.max(0, (dose_mgL * hoClFraction) * t10);
 
   // 7. Corrections
   const tempCorrection = Math.pow(KEEGAN_THETA, temperature - 20);
@@ -141,7 +141,7 @@ export const calculateResults = (state: AppState): CalculationResults => {
     ctDose: ctDose,
     effectiveCt: effectiveCt,
     postDosePh: postDosePh,
-    hoclFraction: hoclFraction,
+    hoClFraction: hoClFraction,
     lrvBacteriaApplied,
     lrvBacteriaEffective,
     lrvVirusApplied,
