@@ -1,0 +1,5 @@
+{
+  "name": "ChloriSafe Ct Calculator",
+  "description": "A professional engineering tool for calculating chlorine contact time (Ct), effective disinfection, and log reduction values (LRV) for water treatment compliance based on USEPA guidelines.",
+  "requestFramePermissions": []
+}
