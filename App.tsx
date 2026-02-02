@@ -15,30 +15,37 @@ import {
   Wind,
   BookOpen,
   XCircle,
-  ExternalLink
+  ExternalLink,
+  RotateCcw
 } from 'lucide-react';
 import { ChlorineChemical, TankType, AppState, TurbidityLevel } from './types';
 import { BaffleFactors } from './constants';
 import { calculateResults } from './utils/calculations';
 
+const INITIAL_STATE: AppState = {
+  flowRate: 10000, // 10,000 m³/d
+  chemical: ChlorineChemical.SODIUM_HYPOCHLORITE,
+  naOClConc: 12.5, // 12.5% w/v
+  naOClDoseRate: 5, 
+  gasDoseRate: 2, 
+  tankType: TankType.RECTANGULAR,
+  dimensions: { length: 20, width: 5, waterDepth: 3 },
+  isBaffled: true,
+  baffleFactor: 0.5,
+  pH: 7.5,
+  temperature: 20,
+  alkalinity: 100,
+  turbidity: TurbidityLevel.LOW
+};
+
 const App: React.FC = () => {
-  const [state, setState] = useState<AppState>({
-    flowRate: 10000, // 10,000 m³/d
-    chemical: ChlorineChemical.SODIUM_HYPOCHLORITE,
-    naOClConc: 12.5, // 12.5% w/v
-    naOClDoseRate: 5, 
-    gasDoseRate: 2, 
-    tankType: TankType.RECTANGULAR,
-    dimensions: { length: 20, width: 5, waterDepth: 3 },
-    isBaffled: true,
-    baffleFactor: 0.5,
-    pH: 7.5,
-    temperature: 20,
-    alkalinity: 100,
-    turbidity: TurbidityLevel.LOW
-  });
+  const [state, setState] = useState<AppState>(INITIAL_STATE);
 
   const results = useMemo(() => calculateResults(state), [state]);
+
+  const resetToDefaults = () => {
+    setState(INITIAL_STATE);
+  };
 
   // Helper to prevent typing negative signs or 'e' (scientific notation)
   const preventInvalidKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -95,10 +102,20 @@ const App: React.FC = () => {
             </div>
             <h1 className="text-xl font-bold text-slate-800 tracking-tight">ChloriSafe Ct</h1>
           </div>
-          <div className="hidden md:flex items-center gap-4 text-sm text-slate-500 font-medium">
-            <span>Compliance Assessment Tool</span>
-            <div className="w-1 h-1 bg-slate-300 rounded-full" />
-            <span className="text-blue-600 font-semibold italic text-xs uppercase tracking-wider">Engineering Professional</span>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={resetToDefaults}
+              className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all border border-slate-200 hover:border-blue-100"
+              title="Reset all inputs to default"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span className="hidden sm:inline">Reset</span>
+            </button>
+            <div className="hidden md:flex items-center gap-4 text-sm text-slate-500 font-medium border-l border-slate-200 pl-4">
+              <span>Compliance Assessment Tool</span>
+              <div className="w-1 h-1 bg-slate-300 rounded-full" />
+              <span className="text-blue-600 font-semibold italic text-xs uppercase tracking-wider">Engineering Professional</span>
+            </div>
           </div>
         </div>
       </header>
