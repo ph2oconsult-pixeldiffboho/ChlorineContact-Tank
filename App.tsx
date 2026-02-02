@@ -23,15 +23,15 @@ import { BaffleFactors } from './constants';
 import { calculateResults } from './utils/calculations';
 
 const INITIAL_STATE: AppState = {
-  flowRate: 10000, // 10,000 m³/d
+  flowRate: 14400, // 14,400 m³/d = 10 m³/min
   chemical: ChlorineChemical.SODIUM_HYPOCHLORITE,
-  naOClConc: 12.5, // 12.5% w/v
-  naOClDoseRate: 5, 
+  naOClConc: 12.0, // 12% w/v
+  naOClDoseRate: 5, // 5 L/h -> 0.6 kg/h -> 14.4 kg/d -> 1 mg/L dose
   gasDoseRate: 2, 
   tankType: TankType.RECTANGULAR,
-  dimensions: { length: 20, width: 5, waterDepth: 3 },
+  dimensions: { length: 20, width: 5, waterDepth: 3 }, // 300 m³ volume
   isBaffled: true,
-  baffleFactor: 0.5,
+  baffleFactor: 0.5, // T10 = (300 / 10) * 0.5 = 15 min
   pH: 7.5,
   temperature: 20,
   alkalinity: 100,
@@ -179,7 +179,7 @@ const App: React.FC = () => {
                       onChange={e => handleInputChange('naOClConc', parseFloat(e.target.value))}
                       className="w-full px-4 py-2 bg-white border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <p className="text-[10px] text-slate-400 mt-1 italic">Typical: 12.5% w/v</p>
+                    <p className="text-[10px] text-slate-400 mt-1 italic">Typical: 12.0% w/v</p>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-500 mb-1">
